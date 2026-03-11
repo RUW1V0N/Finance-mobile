@@ -1,9 +1,12 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, Button, Image, StyleSheet } from "react-native";
+import logo from "@/assets/logo/logo.png"
 
 export default function Start(){
     return(
         <View style={style.constainer}>
-            <Text style={style.hello}>Hello Wortld</Text>
+            <Image source={logo} style={style.logo}/>
+            <Button style={style.buttonStart} title="Login"/>
+            <Button style={style.buttonStart} title="Registration"/>
         </View>
     )
 }
@@ -14,8 +17,14 @@ const style = StyleSheet.create({
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "white"
     },
-    hello:{
-        fontSize: 24,
+    buttonStart:{
+        width: "60%",
+        height: 50,
+    },
+    logo: {
+        width: "85%",
+        height: "40%",
     }
 })
