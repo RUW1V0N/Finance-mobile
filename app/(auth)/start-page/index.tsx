@@ -1,68 +1,27 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import logo from "@/assets/logo/logo.png"
+import {styles} from "./styles"
 
 export default function Start() {
     return (
-        <View style={style.wrapper}>
-            <View style={style.container}>
-                <Image source={logo} style={style.logo} />
-                <Text style={style.nameLogo}>ZentScope</Text> 
-                <Pressable style={style.buttonAuth}>
-                    <Text style={style.textButtonAuth}>Login In</Text>
-                </Pressable>
-                <Pressable style={style.buttonAuth}>
-                    <Text style={style.textButtonAuth}>Sign Up</Text>
-                </Pressable>
-                <Pressable>
-                    <Text style={style.textButtonForgot}>Forgot Password?</Text>
-                </Pressable>
+        <View style={styles.wrapper}>
+            <View style={styles.container}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.title}>All your money in one app!</Text>
+                    <Text style={styles.subTitle}>Manage everything without switching apps, no complexity — just what you need</Text>
+                </View>
+                <View style={styles.imageContainer}>
+                    <Image source={logo} style={styles.image} resizeMode="contain" />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Pressable style={styles.button}>
+                        <Text style={styles.primaryText}>Log In</Text>
+                    </Pressable>
+                    <Pressable style={[styles.button, styles.secondaryButtonStyle]}>
+                        <Text style={[styles.primaryText, styles.secondaryTextStyle]}>Sign Up</Text>
+                    </Pressable>
+                </View>
             </View>
         </View>
     )
 }
-
-const style = StyleSheet.create({
-    wrapper:{
-        flex:1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#fefefe"
-    },
-    container:{
-        width: "80%",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 14,
-        backgroundColor: "#fefefe"
-    },
-    logo: {
-        width: "100%",
-        height: 200,
-        resizeMode: "contain"
-    },
-    nameLogo:{
-        textAlign: "center",
-        color: "#007edf",
-        fontWeight: "bold",
-        fontSize: 30
-    },
-    buttonAuth:{
-        width: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#9dbefd",
-        padding: 12,
-        borderRadius: 30  
-    },
-    textButtonAuth:{
-        textAlign: "center",
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-    textButtonForgot:{
-        textAlign: "center",
-        fontSize: 15,
-        fontWeight: "bold",
-    }
-})
