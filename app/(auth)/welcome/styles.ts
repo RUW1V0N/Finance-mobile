@@ -1,17 +1,16 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-    container: {
+    container:{
         flex:1,
         width: "100%",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: "#fefefe",
+        backgroundColor: "#FBFBFD",
         gap: 20,
-        paddingHorizontal: 15,
-        paddingVertical: 10
-    },   
+        paddingHorizontal: 10
+    },
     imageContainer:{
         flex: 1,
         width: "100%",
@@ -19,57 +18,42 @@ export const styles = StyleSheet.create({
         alignItems:"center",
         overflow: "hidden"
     },
-    image: {
-        width: "100%",
-        height: "100%",
-        resizeMode: "contain",
-    },
     textContainer:{
+        flex: 0.4,
+        width: "80%",
         alignItems: "center",
         gap: 24
     },
-    title: {
-        color: "#3e7bfe",
-        textAlign: "center",
+    title:{
         fontSize: 35,
         fontWeight: "800",
-        lineHeight:40,
+        textAlign: "center",
+        color: "#3e7bfe",
+        lineHeight: 40
     },
-    subTitle: {
-        maxWidth: "85%",
+    subtitle:{
         fontSize: 20,
         color: "#6B7280",
         textAlign: "center",
-        lineHeight: 22
+        lineHeight: 25
     },
-    buttonContainer: {
-        width: "90%",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 12
-    },
-    button: {
+    button:{
         width: "100%", 
         alignItems: "center",
         backgroundColor: "#3E7BFE",
         padding: 16,
         borderRadius: 30,
-        
+
         shadowColor: "#3B82F6",
         shadowOpacity: 0.3,
         shadowRadius: 10,
         shadowOffset: { width: 0, height: 5 },
         elevation: 5,
     },
-    secondaryButtonStyle: {
-        backgroundColor: "#DCE7FF",
-    },
-    primaryText: {
+    textButton:{
+        alignItems:"center",
         color: "#fff",
         fontSize: 16,
         fontWeight: "600",
-    },
-    secondaryTextStyle: {
-        color: "#3B82F6",
     }
 })

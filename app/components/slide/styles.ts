@@ -8,23 +8,9 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 15,
   },
-  headerContainer: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  skipButton: {
-    backgroundColor: "transparent",
-  },
-  skip: {
-    alignItems: "center",
-    fontSize: 18,
-  },
   imageContainer: {
+    flex: 1.5,
     width: "100%",
-    aspectRatio: 1,
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
@@ -35,7 +21,8 @@ export const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   textContainer: {
-    justifyContent: "flex-end",
+    flex: 1,
+    justifyContent: "center",
     gap: 20,
   },
   title: {
@@ -50,10 +37,5 @@ export const styles = StyleSheet.create({
     color: "#6B7280",
     textAlign: "center",
     lineHeight: 25,
-  },
-  pagination: {
-    alignItems: "center",
-    marginBottom: 20,
-    backgroundColor: "#fff",
-  },
+  }
 });

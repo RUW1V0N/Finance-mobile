@@ -5,8 +5,6 @@ type Props = {
     index: number;
 };
 
-const points = slides.length;
-
 export const Pagination = ({index}: Props) => {
     return (
         <View style = {styles.points}>
