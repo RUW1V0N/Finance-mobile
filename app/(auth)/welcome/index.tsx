@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import image from "@/assets/welcome-image.png"
+import image from "@/assets/auth/welcome-image.png"
 import { styles } from "./styles";
 import { useRouter } from "expo-router";
 import { LinearGradient } from 'expo-linear-gradient';

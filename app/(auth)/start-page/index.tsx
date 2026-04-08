@@ -1,10 +1,12 @@
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
+import { View, Text, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 import logo from "@/assets/logo/logo.png"
 import { styles } from "./styles"
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Start() {
+    const router = useRouter();
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fefefe" }}>
             <View style={styles.container}>
@@ -16,7 +18,7 @@ export default function Start() {
                     <Image source={logo} style={styles.image} resizeMode="contain" />
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Pressable style={{width: "100%"}}>
+                    <Pressable style={{width: "100%"}} onPress={()=>router.push("/login")}>
                         <LinearGradient
                             colors={['#3B82F6', '#60A5FA']}
                             start={{ x: 0, y: 0 }}

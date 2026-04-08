@@ -1,5 +1,11 @@
 import { Slot } from "expo-router";
+import { Provider } from "react-redux";
+import {store} from "@/src/store/store"
 
 export default function RootLayout() {
-  return <Slot />;
+  return (
+    <Provider store={store}>
+      <Slot screenOptions={{ headerShown: false }} />
+    </Provider>
+  );
 }
