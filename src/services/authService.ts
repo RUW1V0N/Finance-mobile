@@ -1,6 +1,6 @@
 import { LoginResponse } from "../types/auth";
-
-const API_URL = "http://192.168.0.177:8000";
+import * as SecureStore from 'expo-secure-store';
+import { API_URL } from "@/src/config/api";
 
 export const loginRequest = async (
   email: string,
@@ -21,6 +21,20 @@ export const loginRequest = async (
   if (!res.ok) {
     throw new Error("Invalid credentials");
   }
+
+  return res.json();
+};
+
+export const getProfile = async () => {
+  const token = await SecureStore.getItemAsync('token');
+
+  const res = await fetch(`${API_URL}/profile`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`, 
+    },
+  });
 
   return res.json();
 };
