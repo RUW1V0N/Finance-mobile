@@ -1,13 +1,22 @@
 import { View, Text, Pressable, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import image from "@/assets/auth/welcome-image.png"
 import { styles } from "./styles";
-import { useRouter } from "expo-router";
 import { LinearGradient } from 'expo-linear-gradient';
 
 
 export default function Welcome() {
     const router = useRouter();
+
+    const handleStart = async()=>{
+        await AsyncStorage.setItem('onboardingShown', 'true');
+
+        router.replace("/slide")
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fefefe" }}>
             <View style={styles.container}>
@@ -18,7 +27,7 @@ export default function Welcome() {
                     <Text style={styles.title}>Welcome to ZentScope</Text>
                     <Text style={styles.subtitle}>Take control of your finances and build smarter money habits</Text>
                 </View>
-                <Pressable style={{width:"80%"}} onPress={() => router.replace("/slide")}>
+                <Pressable style={{width:"80%"}} onPress={handleStart}>
                     <LinearGradient
                         colors={['#3B82F6', '#60A5FA']} // 🔥 градиент
                         start={{ x: 0, y: 0 }}

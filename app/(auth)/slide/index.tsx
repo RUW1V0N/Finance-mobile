@@ -4,23 +4,23 @@ import { useState } from 'react';
 import { Slide } from "@/app/components/slide/slide";
 import { slides } from "@/src/data-slides/slides";
 import { useRouter } from 'expo-router';
-import { Pagination } from "@/app/components/slide/pagination"
+import { Pagination } from "@/app/components/slide/pagination";
 
 const { width } = Dimensions.get('window');
 
 export default function Onboarding() {
   const [index, setIndex] = useState(0);
-  const [isLastSlide, setIsLastSlide] = useState(false);
+  const isLastSlide = index === slides.length - 1;
   const router = useRouter();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      
+    <SafeAreaView style={styles.screen}>
+
       <View style={styles.headerContainer}>
-        <Text style={styles.title}>ZentScope</Text>
-        <Pressable style={styles.skipButton} onPress={() => router.replace("/start-page")}>
-          <Text style={styles.skip}>skip</Text>
-        </Pressable>
+        <Text style={styles.logoText}>ZentScope</Text>
+        {!isLastSlide && (<Pressable style={styles.skipButton} onPress={() => router.replace("/start-page")}>
+          <Text style={styles.skipButtonText}>skip</Text>
+        </Pressable>)}
       </View>
 
       <FlatList
@@ -28,6 +28,7 @@ export default function Onboarding() {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        decelerationRate="fast"
         keyExtractor={(_, index) => index.toString()}
 
         onMomentumScrollEnd={(e) => {
@@ -36,27 +37,21 @@ export default function Onboarding() {
           const i = Math.round(offset / screenWidth);
 
           setIndex(i);
-
-          if (isLastSlide && i === slides.length - 1) {
-            router.replace('/start-page');
-          }
-
-          if (i === slides.length - 1) {
-            setIsLastSlide(true);
-          } else {
-            setIsLastSlide(false);
-          }
         }}
 
         renderItem={({ item }) => (
-          <View style={{ width }}>
+          <View style={styles.slideContainer}>
 
             <Slide item={item} />
           </View>
         )}
       />
 
-      <View style={styles.pagination}>
+      {isLastSlide && (<Pressable style={styles.startButton} onPress={() => router.replace("/start-page")}>
+        <Text style={styles.startButtonText}>Get Started</Text>
+      </Pressable>)}
+
+      <View style={styles.paginationContainer}>
         <Pagination index={index} />
       </View>
 
@@ -65,6 +60,10 @@ export default function Onboarding() {
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: "#fefefe"
+  },
   headerContainer: {
     width: "100%",
     flexDirection: "row",
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
   },
-  title: {
+  logoText: {
     fontSize: 35,
     fontWeight: "700",
     lineHeight: 40,
@@ -83,13 +82,33 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     padding: 10
   },
-  skip: {
-    alignItems: "center",
+  skipButtonText: {
     fontSize: 18,
   },
-  pagination: {
+  slideContainer: {
+    width,
+  },
+  startButton: {
+    width: "80%",
     alignItems: "center",
-    marginBottom: 20,
-    backgroundColor: "#fff"
+    alignSelf: "center",
+    backgroundColor: "#3e7bfe",
+    borderRadius: 8,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    marginTop: 25
+
+
+  },
+  startButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+    alignItems: "center"
+  },
+  paginationContainer: {
+    alignItems: "center",
+    backgroundColor: "#fefefe",
+    marginTop: 25
   },
 })

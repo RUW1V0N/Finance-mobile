@@ -9,9 +9,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   imageContainer: {
-    flex: 1.5,
+    flex: 1,
     width: "100%",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     overflow: "hidden",
   },
@@ -21,18 +21,20 @@ export const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   textContainer: {
-    flex: 1,
+    flex: 0.4,
     justifyContent: "center",
-    gap: 20,
+    alignItems: "center",
+    gap: 20
   },
   title: {
     fontSize: 35,
     fontWeight: "700",
     lineHeight: 40,
     textAlign: "center",
-    color: "#3e7bfe",
+    color: "#3e7bfe"
   },
   subtitle: {
+    width: "90%",
     fontSize: 20,
     color: "#6B7280",
     textAlign: "center",
