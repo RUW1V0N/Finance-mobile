@@ -1,6 +1,7 @@
 export interface LoginResponse {
-    token: string;
-    user: {
+    access_token: string;
+    token_type?: string;
+    user?: {
         id: string;
         email: string;
     };

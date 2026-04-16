@@ -1,10 +1,10 @@
 import { View, FlatList, Dimensions, Text, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
-import { Slide } from "@/app/components/slide/slide";
+import { Slide } from "@/app/components/auth/slide/slide";
 import { slides } from "@/src/data-slides/slides";
 import { useRouter } from 'expo-router';
-import { Pagination } from "@/app/components/slide/pagination";
+import { Pagination } from "@/app/components/auth/slide/pagination";
 
 const { width } = Dimensions.get('window');
 

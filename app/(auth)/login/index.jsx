@@ -17,8 +17,34 @@ import { setToken } from "@/src/store/authSlice";
 
 import { loginRequest } from "@/src/services/authService";
 
-import image from "@/assets/auth/login.png";
+import image from "@/assets/auth/login/login.png";
+import { GoogleIcon } from "@/app/components/auth/icon/google-icon";
+import { Facebook } from "@/app/components/auth/icon/facebook";
+import { AppleId } from "@/app/components/auth/icon/apple-id";
 import { styles } from "./styles";
+
+const ERROR_MESSAGES = {
+  emptyCredentials: "Please enter a valid email and password",
+  emailRequired: "Please enter email",
+  passwordRequired: "Please enter password",
+  invalidCredentials: "Invalid email or password",
+};
+
+const getValidationError = (email, password) => {
+  if (!email && !password) {
+    return ERROR_MESSAGES.emptyCredentials;
+  }
+
+  if (!email) {
+    return ERROR_MESSAGES.emailRequired;
+  }
+
+  if (!password) {
+    return ERROR_MESSAGES.passwordRequired;
+  }
+
+  return "";
+};
 
 export default function Login() {
   const router = useRouter();
@@ -33,11 +59,8 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const errorMessage = !email
-        ? "Invalid email"
-        : !password
-          ? "Invalid password"
-          : "";
+      const errorMessage = getValidationError(email, password);
+
       if (errorMessage) {
         setError(errorMessage);
         return;
@@ -49,51 +72,57 @@ export default function Login() {
         throw new Error("No token");
       }
 
-      await SecureStore.setItemAsync("token", data.access_token);
+      await SecureStore.setItemAsync("access_token", data.access_token);
       dispatch(setToken(data.access_token));
 
       router.replace("/(tabs)/home");
     } catch (e) {
-      setError("Invalid email or password");
-      console.log(e);
+      setError(ERROR_MESSAGES.invalidCredentials);
     } finally {
       setLoading(false);
     }
   };
 
+  const isEmptyCredentialsError = error === ERROR_MESSAGES.emptyCredentials;
+  const isEmailError =
+    error === ERROR_MESSAGES.emailRequired || isEmptyCredentialsError;
+  const isPasswordError =
+    error === ERROR_MESSAGES.passwordRequired || isEmptyCredentialsError;
+  const isTopError =
+    error === ERROR_MESSAGES.invalidCredentials || isEmptyCredentialsError;
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#fefefe" }}>
+    <SafeAreaView style={styles.screen}>
+      <View style={styles.imageContainer}>
+        <Image source={image} style={styles.image} />
+      </View>
       <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={image}
-            style={{ width: "100%", height: "100%" }}
-            resizeMode="contain"
-          />
-        </View>
         <View style={styles.loginContainer}>
           <Text style={styles.title}>Welcome</Text>
-          <View style={styles.emailContainer}>
-            <Text style={styles.emailText}>Email</Text>
+          {isTopError ? <Text style={styles.errorLabel}>{error}</Text> : null}
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Email</Text>
             <TextInput
+              style={[styles.input, isEmailError && styles.inputError]}
               placeholder="Enter Email"
               value={email}
               onChangeText={setEmail}
             />
-            {error ? (
-              <Text style={[emailText, { color: "red" }]}>{error}</Text>
+            {error === ERROR_MESSAGES.emailRequired ? (
+              <Text style={styles.errorLabel}>{error}</Text>
             ) : null}
           </View>
-          <View style={styles.passwordContainer}>
-            <Text style={styles.passwordText}>Password</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Password</Text>
             <TextInput
+              style={[styles.input, isPasswordError && styles.inputError]}
               placeholder="Enter Password"
               value={password}
               onChangeText={setPassword}
               secureTextEntry
             />
-            {error ? (
-              <Text style={[passwordText, { color: "red" }]}>{error}</Text>
+            {error === ERROR_MESSAGES.passwordRequired ? (
+              <Text style={styles.errorLabel}>{error}</Text>
             ) : null}
           </View>
           <Pressable style={styles.forgotButton}>
@@ -112,12 +141,26 @@ export default function Login() {
               )}
             </Text>
           </Pressable>
-          <View style={styles.footerContainer}>
-            <Text style={styles.footerText}>Don't have an account?</Text>
-            <Pressable style={styles.signupButton}>
-              <Text style={styles.textSignup}>Sign Up</Text>
-            </Pressable>
-          </View>
+        </View>
+        <View style={styles.line}>
+          <Text style={styles.lineText}>log in with</Text>
+        </View>
+        <View style={styles.additionalLoginContainer}>
+          <Pressable style={styles.additionalButton}>
+            <GoogleIcon />
+          </Pressable>
+          <Pressable style={styles.additionalButton}>
+            <Facebook />
+          </Pressable>
+          <Pressable style={styles.additionalButton}>
+            <AppleId />
+          </Pressable>
+        </View>
+        <View style={styles.footerContainer}>
+          <Text style={styles.footerText}>Don't have an account?</Text>
+          <Pressable style={styles.signupButton}>
+            <Text style={styles.textSignup}>Sign Up</Text>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>
