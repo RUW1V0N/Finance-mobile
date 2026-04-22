@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
         width: "100%",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent:"space-between",
         backgroundColor: "#fefefe",
         gap: 20,
         paddingHorizontal: 15,
@@ -39,13 +40,25 @@ export const styles = StyleSheet.create({
         fontWeight: "800",
         lineHeight:40,
     },
+    wrapper:{
+        width: "100%",
+        gap: 6
+    },
     inputContainer:{
         width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 10,
+        gap: 5,
+
+        borderWidth: 2,
+        borderColor: "#E5E7EB",
+        borderRadius: 12
     },
     inputLabel:{
         position: "absolute",
-        top: -8,
-        left: 10,
+        top: -10,
+        left: 8,
         backgroundColor: "#fff",
         paddingHorizontal: 4,
         fontSize: 14,
@@ -53,11 +66,10 @@ export const styles = StyleSheet.create({
         zIndex: 1
     },
     input:{
-        padding: 10,
+        flex: 1,
         fontSize: 18,
-        borderWidth: 2,
-        borderColor: "#c9c9c9",
-        borderRadius: 12
+        minWidth: 0,
+        color: "#374151",
     },
     inputError:{
         borderColor:"#ff1c42",
@@ -70,8 +82,40 @@ export const styles = StyleSheet.create({
         color: "#d52b48",
         backgroundColor: "#fee9ed"
     },
+    visibility:{
+        width: 22
+    },
+    forgotButton:{
+        alignSelf: "flex-end",
+        marginBottom: 20
+    },
+    textForgotButton: {
+        alignItems:"center",
+        color: "#3E7BFE",
+        backgroundColor: "#fefefe",
+        paddingHorizontal: 5
+    },
     loginButton: {
-        padding: 15
+        width: "100%", 
+    },
+    gradienButton:{
+        width: "100%",
+        alignItems: "center",
+        backgroundColor: "#3E7BFE",
+        padding: 16,
+        borderRadius: 30,
+
+        shadowColor: "#3B82F6",
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 5 },
+        elevation: 5,
+    },
+    textButton:{
+        alignItems:"center",
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "600",
     },
     line:{
         width: "100%",
@@ -92,5 +136,11 @@ export const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent:"space-between",
         alignItems:"center"
+    },
+    footerContainer:{
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row"
     },
 })

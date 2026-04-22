@@ -21,7 +21,13 @@ import image from "@/assets/auth/login/login.png";
 import { GoogleIcon } from "@/app/components/auth/icon/google-icon";
 import { Facebook } from "@/app/components/auth/icon/facebook";
 import { AppleId } from "@/app/components/auth/icon/apple-id";
+import { Email } from "@/app/components/auth/icon/email";
+import { Password } from "@/app/components/auth/icon/password";
+import { Visibility } from "@/app/components/auth/icon/visibility";
+import { VisibilityOff } from "@/app/components/auth/icon/visibility-off";
+
 import { styles } from "./styles";
+import { LinearGradient } from "expo-linear-gradient";
 
 const ERROR_MESSAGES = {
   emptyCredentials: "Please enter a valid email and password",
@@ -54,6 +60,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isVisibilityPassword, setIsVisibilityPassword]= useState(false);
 
   const handleLogin = async () => {
     try {
@@ -84,10 +91,15 @@ export default function Login() {
   };
 
   const isEmptyCredentialsError = error === ERROR_MESSAGES.emptyCredentials;
+  const isAuthError = error === ERROR_MESSAGES.invalidCredentials;
   const isEmailError =
-    error === ERROR_MESSAGES.emailRequired || isEmptyCredentialsError;
+    error === ERROR_MESSAGES.emailRequired ||
+    isEmptyCredentialsError ||
+    isAuthError;
   const isPasswordError =
-    error === ERROR_MESSAGES.passwordRequired || isEmptyCredentialsError;
+    error === ERROR_MESSAGES.passwordRequired ||
+    isEmptyCredentialsError ||
+    isAuthError;
   const isTopError =
     error === ERROR_MESSAGES.invalidCredentials || isEmptyCredentialsError;
 
@@ -100,31 +112,43 @@ export default function Login() {
         <View style={styles.loginContainer}>
           <Text style={styles.title}>Welcome</Text>
           {isTopError ? <Text style={styles.errorLabel}>{error}</Text> : null}
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Email</Text>
-            <TextInput
-              style={[styles.input, isEmailError && styles.inputError]}
-              placeholder="Enter Email"
-              value={email}
-              onChangeText={setEmail}
-            />
+          <View style={styles.wrapper}>
+            <View style={[styles.inputContainer, isEmailError && styles.inputError]}>
+              <Email />
+              <Text style={styles.inputLabel}>Email</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Email"
+                placeholderTextColor="#c9c9c9"
+                value={email}
+                onChangeText={setEmail}
+              />
+            </View>
             {error === ERROR_MESSAGES.emailRequired ? (
               <Text style={styles.errorLabel}>{error}</Text>
             ) : null}
           </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Password</Text>
-            <TextInput
-              style={[styles.input, isPasswordError && styles.inputError]}
-              placeholder="Enter Password"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
+          <View style={styles.wrapper}>
+            <View style={[styles.inputContainer,isPasswordError && styles.inputError]}>
+              <Password />
+              <Text style={styles.inputLabel}>Password</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Password"
+                placeholderTextColor="#c9c9c9"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry = {!isVisibilityPassword}
+              />
+              <Pressable  onPress={()=> setIsVisibilityPassword(prev => !prev)}>
+                  {isVisibilityPassword ? <Visibility/> : <VisibilityOff/>}
+              </Pressable>
+            </View>
             {error === ERROR_MESSAGES.passwordRequired ? (
               <Text style={styles.errorLabel}>{error}</Text>
             ) : null}
           </View>
+
           <Pressable style={styles.forgotButton}>
             <Text style={styles.textForgotButton}>Forgot Password?</Text>
           </Pressable>
@@ -133,13 +157,18 @@ export default function Login() {
             onPress={handleLogin}
             disabled={loading}
           >
-            <Text style={styles.textLoginButton}>
+            <LinearGradient
+              colors={["#3B82F6", "#60A5FA"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.gradienButton}
+            >
               {loading ? (
                 <ActivityIndicator color="#fff" />
               ) : (
-                <Text style={styles.textLoginButton}>Login</Text>
+                <Text style={styles.textButton}>Login</Text>
               )}
-            </Text>
+            </LinearGradient>
           </Pressable>
         </View>
         <View style={styles.line}>

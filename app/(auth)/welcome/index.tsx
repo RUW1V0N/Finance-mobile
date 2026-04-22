@@ -29,7 +29,7 @@ export default function Welcome() {
                 </View>
                 <Pressable style={{width:"80%"}} onPress={handleStart}>
                     <LinearGradient
-                        colors={['#3B82F6', '#60A5FA']} // 🔥 градиент
+                        colors={['#3B82F6', '#60A5FA']}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
                         style={styles.button}>
