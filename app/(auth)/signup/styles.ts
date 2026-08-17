@@ -156,8 +156,8 @@ export const styles = StyleSheet.create({
         color: "#6B7280",
         fontSize: 16,
     },
-    footerButton: {
-        marginLeft: 5,
+    footerButton:{
+        marginLeft: 5
     },
     textButtonFooter: {
         color: "#3E7BFE",

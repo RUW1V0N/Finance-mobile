@@ -27,7 +27,7 @@ export default function Start() {
                             <Text style={styles.primaryText}>Log In</Text>
                         </LinearGradient>
                     </Pressable>
-                    <Pressable style={[styles.button, styles.secondaryButtonStyle]}>
+                    <Pressable style={[styles.button, styles.secondaryButtonStyle]} onPress={()=>router.push("/signup")}>
                         <Text style={[styles.primaryText, styles.secondaryTextStyle]}>Sign Up</Text>
                     </Pressable>
                 </View>

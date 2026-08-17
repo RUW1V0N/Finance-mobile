@@ -32,24 +32,46 @@ import { LinearGradient } from "expo-linear-gradient";
 const ERROR_MESSAGES = {
   emptyCredentials: "Please enter a valid email and password",
   emailRequired: "Please enter email",
-  passwordRequired: "Please enter password",
+  passwordRequired: "Please enter password", 
   invalidCredentials: "Invalid email or password",
 };
 
-const getValidationError = (email, password) => {
-  if (!email && !password) {
-    return ERROR_MESSAGES.emptyCredentials;
+const getValidationState = (email, password) => {
+  const result = {
+    email: false,
+    password: false,
+    message: "",
+  };
+
+  const hasEmail = Boolean(email.trim());
+  const hasPassword = Boolean(password);
+
+  if (!hasEmail && !hasPassword) {
+    result.email = true;
+    result.password = true;
+    result.message = ERROR_MESSAGES.emptyCredentials;
+    return result;
   }
 
-  if (!email) {
-    return ERROR_MESSAGES.emailRequired;
+  if (!hasEmail) {
+    result.email = true;
   }
 
-  if (!password) {
-    return ERROR_MESSAGES.passwordRequired;
+  if (!hasPassword) {
+    result.password = true;
   }
 
-  return "";
+  if (result.email) {
+    result.message = ERROR_MESSAGES.emailRequired;
+    return result;
+  }
+
+  if (result.password) {
+    result.message = ERROR_MESSAGES.passwordRequired;
+    return result;
+  }
+
+  return result;
 };
 
 export default function Login() {
@@ -60,18 +82,26 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const [isVisibilityPassword, setIsVisibilityPassword]= useState(false);
 
   const handleLogin = async () => {
+    setError("");
+    setEmailError(false);
+    setPasswordError(false);
+
+    const validation = getValidationState(email, password);
+    setEmailError(validation.email);
+    setPasswordError(validation.password);
+    setError(validation.message);
+
+    if (validation.email || validation.password) {
+      return;
+    }
+
     try {
       setLoading(true);
-
-      const errorMessage = getValidationError(email, password);
-
-      if (errorMessage) {
-        setError(errorMessage);
-        return;
-      }
 
       const data = await loginRequest(email, password);
 
@@ -85,23 +115,16 @@ export default function Login() {
       router.replace("/(tabs)/home");
     } catch (e) {
       setError(ERROR_MESSAGES.invalidCredentials);
+      setEmailError(true);
+      setPasswordError(true);
     } finally {
       setLoading(false);
     }
   };
 
-  const isEmptyCredentialsError = error === ERROR_MESSAGES.emptyCredentials;
-  const isAuthError = error === ERROR_MESSAGES.invalidCredentials;
-  const isEmailError =
-    error === ERROR_MESSAGES.emailRequired ||
-    isEmptyCredentialsError ||
-    isAuthError;
-  const isPasswordError =
-    error === ERROR_MESSAGES.passwordRequired ||
-    isEmptyCredentialsError ||
-    isAuthError;
   const isTopError =
-    error === ERROR_MESSAGES.invalidCredentials || isEmptyCredentialsError;
+    error === ERROR_MESSAGES.invalidCredentials ||
+    error === ERROR_MESSAGES.emptyCredentials;
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -113,7 +136,7 @@ export default function Login() {
           <Text style={styles.title}>Welcome</Text>
           {isTopError ? <Text style={styles.errorLabel}>{error}</Text> : null}
           <View style={styles.wrapper}>
-            <View style={[styles.inputContainer, isEmailError && styles.inputError]}>
+            <View style={[styles.inputContainer, emailError && styles.inputError]}>
               <Email />
               <Text style={styles.inputLabel}>Email</Text>
               <TextInput
@@ -121,15 +144,19 @@ export default function Login() {
                 placeholder="Enter Email"
                 placeholderTextColor="#c9c9c9"
                 value={email}
-                onChangeText={setEmail}
+                onChangeText={(text) => {
+                  setEmail(text);
+                  if (emailError) setEmailError(false);
+                  if (error) setError("");
+                }}
               />
             </View>
-            {error === ERROR_MESSAGES.emailRequired ? (
-              <Text style={styles.errorLabel}>{error}</Text>
+            {emailError ? (
+              <Text style={styles.errorLabel}>{ERROR_MESSAGES.emailRequired}</Text>
             ) : null}
           </View>
           <View style={styles.wrapper}>
-            <View style={[styles.inputContainer,isPasswordError && styles.inputError]}>
+            <View style={[styles.inputContainer, passwordError && styles.inputError]}>
               <Password />
               <Text style={styles.inputLabel}>Password</Text>
               <TextInput
@@ -137,15 +164,19 @@ export default function Login() {
                 placeholder="Enter Password"
                 placeholderTextColor="#c9c9c9"
                 value={password}
-                onChangeText={setPassword}
+                onChangeText={(text) => {
+                  setPassword(text);
+                  if (passwordError) setPasswordError(false);
+                  if (error) setError("");
+                }}
                 secureTextEntry = {!isVisibilityPassword}
               />
               <Pressable  onPress={()=> setIsVisibilityPassword(prev => !prev)}>
                   {isVisibilityPassword ? <Visibility/> : <VisibilityOff/>}
               </Pressable>
             </View>
-            {error === ERROR_MESSAGES.passwordRequired ? (
-              <Text style={styles.errorLabel}>{error}</Text>
+            {passwordError ? (
+              <Text style={styles.errorLabel}>{ERROR_MESSAGES.passwordRequired}</Text>
             ) : null}
           </View>
 
@@ -174,7 +205,7 @@ export default function Login() {
         <View style={styles.line}>
           <Text style={styles.lineText}>log in with</Text>
         </View>
-        <View style={styles.additionalLoginContainer}>
+        <View style={styles.additionalContainer}>
           <Pressable style={styles.additionalButton}>
             <GoogleIcon />
           </Pressable>
@@ -187,8 +218,8 @@ export default function Login() {
         </View>
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>Don't have an account?</Text>
-          <Pressable style={styles.signupButton}>
-            <Text style={styles.textSignup}>Sign Up</Text>
+          <Pressable style={styles.footerButton} onPress={()=>router.push("/signup")}>
+            <Text style={styles.textButtonFooter}>Sign Up</Text>
           </Pressable>
         </View>
       </View>
